@@ -1,0 +1,101 @@
+﻿@model IEnumerable<test.Models.Article>
+
+@{
+    ViewBag.Title = "ArticleGrid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" data-aos="fade-up">
+                <div class="card-body">
+                    
+                       
+
+                    <p class="btn btn-primary">
+                        @Html.ActionLink("Create New", "ArticleCreate", "Article", routeValues: new { id = 0 },htmlAttributes: new { })
+                        
+                    </p>
+                        <table tabindex="3" cellspacing="0" rules="all" class="table table-striped table-bordered table-hover" border="1" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.ArticleHeading)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.AuthorName)
+                                    </th>
+                                    <th class="hidden" scope="col" style="display:none">
+                                        @Html.DisplayNameFor(model => model.ImagePath)
+                                    </th>
+                                    <th class="hidden" scope="col" style="display:none">
+                                        @Html.DisplayNameFor(model => model.ArticleParagraph1)
+                                    </th>
+                                    <th class="hidden" scope="col" style="display:none">
+                                        @Html.DisplayNameFor(model => model.ArticleParagraph2)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.isPublished)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.Articledate)
+                                    </th>
+                                    <th scope="col" style="display:none">
+                                        @Html.DisplayNameFor(model => model.ArticleHeading)
+                                    </th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.ArticleList != null)
+                                {
+                                    System.Data.DataTable dt = ViewBag.ArticleList as System.Data.DataTable;
+                                    foreach (System.Data.DataRow drDetailsRow in dt.Rows)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @drDetailsRow["Art_Heading"].ToString()
+                                            </td>
+                                            <td>
+                                                @drDetailsRow["Art_AuthorName"].ToString()
+                                            </td>
+                                            <td class="hidden" style="display:none">
+                                                @drDetailsRow["Art_ImagePath"].ToString()
+                                            </td>
+                                            <td class="hidden" style="display:none">
+                                                @drDetailsRow["Art_Paragraph1"].ToString()
+                                            </td>
+                                            <td class="hidden" style="display:none">
+                                                @drDetailsRow["Art_Paragraph2"].ToString()
+                                            </td>
+                                            <td>
+                                                @drDetailsRow["Art_isPublished"].ToString()
+                                            </td>
+                                            <td>
+                                                @drDetailsRow["Art_crDate"].ToString()
+                                            </td>
+                                            <td class="hidden" style="display:none">
+                                                @drDetailsRow["Art_pkid"].ToString()
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "ArticleCreate", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() /* id=item.PrimaryKey */ }, htmlAttributes:new { } ) |
+                                                @Html.ActionLink("Preview", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+
+                        </table>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

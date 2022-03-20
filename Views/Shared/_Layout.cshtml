@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>@ViewBag.Title | Test </title>
+
+    <!-- plugin css for this page -->
+    <link href="~/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/vendors/aos/dist/aos.css/aos.css" rel="stylesheet" />
+
+    <!-- End plugin css for this page -->
+
+
+    <!-- inject:css -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <!-- endinject -->
+
+    
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="main-panel">
+            @*partial:partials/_navbar.html*@
+            <header id="header">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="navbar-top">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <ul class="navbar-top-left-menu">
+                                    <li class="nav-item">                                        
+                                        @Html.ActionLink("ಜಾಹೀರಾತಿಗಾಗಿ", "About", "Home", routeValues: new { sType = "ADVERTISEMENT" }, htmlAttributes: new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">                                        
+                                        @Html.ActionLink("ಸುದ್ದಿವಾಹಿನಿ ಬಗ್ಗೆ", "About", "Home", routeValues: new { sType = "ABOUT" }, htmlAttributes: new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">                                        
+                                        @Html.ActionLink("ಕಾರ್ಯಕ್ರಮಗಳು", "About", "Home", routeValues: new { sType = "EVENTS" }, htmlAttributes: new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">                                        
+                                        @Html.ActionLink("ಸಂಪರ್ಕಿಸಿ", "About", "Home", routeValues: new { sType = "CONTACT" }, htmlAttributes: new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">                                        
+                                        @Html.ActionLink("ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ", "About", "Home", routeValues: new { sType = "MORE" }, htmlAttributes: new{@class="nav-link"})
+                                    </li>
+                                </ul>
+                                <ul class="navbar-top-right-menu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link"><i class="mdi mdi-magnify"></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">Login ಮಾಡಿ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">ನೊಂದಾಯಿಸಿಕೊಳ್ಳಿ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="navbar-bottom">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+
+                                        <img src="~/Content/Images/yamaha_Logo.png" height="60" />
+
+                                    </a>
+                                </div>
+                                <div>
+                                    <button class="navbar-toggler"
+                                            type="button"
+                                            data-target="#navbarSupportedContent"
+                                            aria-controls="navbarSupportedContent"
+                                            aria-expanded="false"
+                                            aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="navbar-collapse justify-content-center collapse"
+                                         id="navbarSupportedContent">
+                                        <ul class="navbar-nav d-lg-flex justify-content-between align-items-center">
+                                            <li>
+                                                <button class="navbar-close">
+                                                    <i class="mdi mdi-close"></i>
+                                                </button>
+                                            </li>
+                                            <li class="nav-item active">
+                                                <a class="nav-link" href="index.html">ಮುಖಪುಟ</a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="pages/business.html">ವಾಣಿಜ್ಯೋಧ್ಯಮ</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="pages/sports.html">ಕ್ರೀಡಾ ಸುದ್ದಿ</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="pages/art.html">ಸಿನಿಮಾ</a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="pages/politics.html">ರಾಜಕೀಯ</a>
+                                            </li>
+                                            @if (ViewBag.User == "admin")
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="@Url.Action("ArticleGrid", "Article")">Create Article</a>
+                                                </li>
+                                            }
+                                            @*<li class="nav-item">
+                <a class="nav-link" href="pages/travel.html">Travel</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/contactus.html">Contact</a>
+            </li>*@
+                                            </ul>
+                                    </div>
+                                </div>
+                                <ul class="social-media">
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-youtube"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-twitter"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+
+
+
+
+            @RenderBody()
+
+
+
+            <footer>
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <img src="~/Content/Images/logo.svg" class="footer-logo" alt="" />
+                                <h5 class="font-weight-normal mt-4 mb-5">
+                                    Newspaper is your news, entertainment, music fashion website. We
+                                    provide you with the latest breaking news and videos straight from
+                                    the entertainment industry.
+                                </h5>
+                                <ul class="social-media mb-3">
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-youtube"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-twitter"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4">
+                                <h3 class="font-weight-bold mb-3">RECENT POSTS</h3>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="footer-border-bottom pb-2">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <img src="~/Content/Images/dashboard/home_1.jpg"
+                                                         alt="thumb"
+                                                         class="img-fluid" />
+                                                </div>
+                                                <div class="col-9">
+                                                    <h5 class="font-weight-600">
+                                                        Cotton import from USA to soar was American traders
+                                                        predict
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="footer-border-bottom pb-2 pt-2">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <img src="~/Content/Images/dashboard/home_2.jpg"
+                                                         alt="thumb"
+                                                         class="img-fluid" />
+                                                </div>
+                                                <div class="col-9">
+                                                    <h5 class="font-weight-600">
+                                                        Cotton import from USA to soar was American traders
+                                                        predict
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <img src="~/Content/Images/dashboard/home_3.jpg"
+                                                         alt="thumb"
+                                                         class="img-fluid" />
+                                                </div>
+                                                <div class="col-9">
+                                                    <h5 class="font-weight-600 mb-3">
+                                                        Cotton import from USA to soar was American traders
+                                                        predict
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <h3 class="font-weight-bold mb-3">CATEGORIES</h3>
+                                <div class="footer-border-bottom pb-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 font-weight-600">Magazine</h5>
+                                        <div class="count">1</div>
+                                    </div>
+                                </div>
+                                <div class="footer-border-bottom pb-2 pt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 font-weight-600">Business</h5>
+                                        <div class="count">1</div>
+                                    </div>
+                                </div>
+                                <div class="footer-border-bottom pb-2 pt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 font-weight-600">Sports</h5>
+                                        <div class="count">1</div>
+                                    </div>
+                                </div>
+                                <div class="footer-border-bottom pb-2 pt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 font-weight-600">Arts</h5>
+                                        <div class="count">1</div>
+                                    </div>
+                                </div>
+                                <div class="pt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0 font-weight-600">Politics</h5>
+                                        <div class="count">1</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="d-sm-flex justify-content-between align-items-center">
+                                    <div class="fs-14 font-weight-600">
+                                        © 2022  <a href="#" target="_blank" class="text-white"> Havissu Studios </a>. All rights reserved.
+                                    </div>
+                                    <div class="fs-14 font-weight-600">
+                                        Handcrafted by <a href="#" target="_blank" class="text-white"> Havissu Studios </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+        </div>
+    </div>
+
+
+    
+<script src="~/vendors/js/vendor.bundle.base.js"></script>
+<script src="~/vendors/aos/dist/aos.js/aos.js"></script>
+
+<script src="~/Scripts/demo.js"></script>
+<script src="~/Scripts/jquery.easeScroll.js"></script>
+
+</body>
+
+@*<body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>*@
+</html>
