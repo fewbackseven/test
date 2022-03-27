@@ -1,4 +1,4 @@
-﻿
+﻿@model test.Models.Article
 @{
     ViewBag.Title = "ArticleView";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,46 +12,46 @@
                 <div class="card-body">
                     <div class="aboutus-wrapper">
                         <h1 class="mt-5">
-                            ArticleView
+                            @Html.DisplayTextFor(model => model.ArticleHeading)
                         </h1>
-                        
+                        <br />
+                        <label> Written By: @Html.DisplayTextFor(model => model.AuthorName) </label>
+
                         <br />
                         <br />
 
-                        <img src="~/Content/Images/about/about.jpg"
+                        <!--<img src="@Url.Content(@ViewBag.imageSrc )"-->
+                        <img src="@Url.Content(@ViewBag.imageSrc )"
                              alt="banner"
                              class="img-fluid mb-5" />
 
                         <p class="font-weight-600 fs-15">
-                            He has led a remarkable campaign, defying the traditional
-                            mainstream parties courtesy of his En Marche! movement.
-                            For many, however, the campaign has become less about
-                            backing Macron and instead about voting against Le Pen,
-                            the National Front candidate.
+                            @Html.Raw(Model.ArticleParagraph1)
+
                         </p>
                         <p class="font-weight-600 fs-15 mb-5 mt-4">
-                            He has led a remarkable campaign, defying the traditional
-                            mainstream parties courtesy of his En Marche! movement.
-                            For many, however, the campaign has become less about
-                            backing Macron and instead about voting against Le Pen,
-                            the National Front candidate.
+                            @Html.DisplayTextFor(model => model.ArticleParagraph2)
                         </p>
 
+                        <br />
+                        <br />
 
-                        <p class="font-weight-600 fs-15 text-center">
-                            He has led a remarkable campaign, defying the traditional
-                            mainstream parties courtesy of his En Marche! movement.
-                            For many, however, the campaign has become less about
-                            backing Macron and instead about voting against Le Pen,
-                            the National Front candidate.
-                        </p>
-                        <p class="font-weight-600 fs-15 mb-5 mt-4 text-center">
-                            He has led a remarkable campaign, defying the traditional
-                            mainstream parties courtesy of his En Marche! movement.
-                            For many, however, the campaign has become less about
-                            backing Macron and instead about voting against Le Pen,
-                            the National Front candidate.
-                        </p>
+                        @if (ViewBag.User == "Admin")
+                        {
+                            <p class="btn btn-primary">
+                                @Html.ActionLink("Edit", "ArticleCreate", "Article", new { id = ViewBag.ArticleID }, new { cssclass = "btn btn-primary" })
+                            </p>
+                            @*<p class="btn btn-primary">
+                                @Html.ActionLink("View Articles", "ArticleGrid", "Article",new { sectionID = "1"} , new { cssclass = "btn btn-primary" })
+                            </p>
+                            <p class="btn btn-primary">
+                                @Html.ActionLink("Delete", "DeleteGrid", "Article", new { id = ViewBag.ArticleID }, new { cssclass = "btn btn-primary" })
+                            </p>*@
+                        }
+
+
+
+
                     </div>
                 </div>
             </div>

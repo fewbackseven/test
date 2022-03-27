@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "ಕನ್ನಡ ಸುದ್ದಿ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -23,86 +24,117 @@
 
 <div class="content-wrapper">
     <div class="container">
-        <div class="row" data-aos="fade-up">
-            <div class="col-xl-8 stretch-card grid-margin">
-                <div class="position-relative" >
-                    
-                        <img src="@Url.Content(@ViewBag.imgSrc )" class="img-fluid"  alt="banner" />
+        @if (ViewBag.ArticleList != null)
+        {
+            System.Data.DataTable dt = ViewBag.ArticleList as System.Data.DataTable;
 
-                        @*<img src="~/Content/Images/dashboard/banner.jpg"
+            <div class="row" data-aos="fade-up">
+                <div class="col-xl-8 stretch-card grid-margin">
+                    <div class="position-relative">
+                        @if (dt.Rows.Count > 0)
+                        {
+
+                            <img src="@Url.Content(dt.Rows[0]["Art_ImagePath"].ToString())" class="img-fluid" alt="banner" />
+
+                            @*<img src="~/Content/Images/dashboard/banner.jpg"
                                 alt="banner"
                                 class="img-fluid" />*@
 
-                <div class="banner-content">
-                    <div class="badge badge-danger fs-12 font-weight-bold mb-3">
-                        global news
-                    </div>
+                            <div class="banner-content">
+                                <div class="badge badge-danger fs-12 font-weight-bold mb-3">
+                                    Latest news
+                                </div>
 
-                    <h1 class="mb-0">GLOBAL PANDEMIC</h1>
+                                @*<h1 class="mb-0">GLOBAL PANDEMIC</h1>*@
 
-                    <a href="@Url.Action("ArticleView", "Article")">
-                        <h1 class="p-3 mb-2 bg-white text-dark">
-                            @ViewBag.ArticleHeading
-                        </h1>
-                    </a>
+                                <a href="@Url.Action("ArticleView", "Article", new { id = dt.Rows[0]["Art_pkid"].ToString() })">
+                                    <h1 class="p-3 mb-2 text-primary">
+                                        @dt.Rows[0]["Art_Heading"].ToString()
+                                    </h1>
+                                </a>
 
-                    <div class="fs-12">
-                        <span class="mr-2">Photo </span>10 Minutes ago
+                                @*<div class="fs-12">
+                                    <span class="mr-2">Photo </span>10 Minutes ago
+                                </div>*@
+                            </div>
+                        }
                     </div>
                 </div>
-                    
+                <div class="col-xl-4 stretch-card grid-margin">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h2>Latest news</h2>
+                            @if (dt.Rows.Count > 1)
+                            {
+                                <a href="@Url.Action("ArticleView", "Article", new { id = dt.Rows[1]["Art_pkid"].ToString() })">
+                                    <div class="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+
+                                            <h5 class="text-white">@dt.Rows[1]["Art_Heading"].ToString().Split(' ')[0] @dt.Rows[1]["Art_Heading"].ToString().Split(' ')[1]</h5>
+
+                                            <div class="fs-12">
+                                                <span class="mr-2">Photo </span>10 Minutes ago
+                                            </div>
+                                        </div>
+                                        <div class="img-thumbnail">
+                                            <img src="@Url.Content(dt.Rows[1]["Art_ImagePath"].ToString())"
+                                                 alt="thumb" width="80" height="80"
+                                                 class="img-fluid " />
+                                            @*<img src="~/Content/Images/dashboard/home_1.jpg"
+                                                alt="thumb"
+                                                class="img-fluid img-lg" />*@
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+
+                            @if (dt.Rows.Count > 2)
+                            {
+                                <a href="@Url.Action("ArticleView", "Article", new { id = dt.Rows[2]["Art_pkid"].ToString() })">
+                                    <div class="d-flex border-bottom-blue pb-4 pt-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+
+                                            <h5 class="text-white">@dt.Rows[2]["Art_Heading"].ToString().Split(' ')[0] @dt.Rows[2]["Art_Heading"].ToString().Split(' ')[1] </h5>
+
+                                            <div class="fs-12">
+                                                <span class="mr-2">Photo </span>10 Minutes ago
+                                            </div>
+                                        </div>
+                                        <div class="img-thumbnail">
+                                            <img src="@Url.Content(dt.Rows[2]["Art_ImagePath"].ToString())"
+                                                 alt="thumb" width="80" height="80"
+                                                 class="img-fluid " />
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+
+                            @if (dt.Rows.Count > 3)
+                            {
+                                <a href="@Url.Action("ArticleView", "Article", new { id = dt.Rows[3]["Art_pkid"].ToString() })">
+                                    <div class="d-flex pt-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+
+                                            <h5 class="text-white">@dt.Rows[3]["Art_Heading"].ToString().Split(' ')[0] @dt.Rows[3]["Art_Heading"].ToString().Split(' ')[1]</h5>
+
+                                            <div class="fs-12">
+                                                <span class="mr-2">Photo </span>10 Minutes ago
+                                            </div>
+
+                                        </div>
+                                        <div class="img-thumbnail">
+                                            <img src="@Url.Content(dt.Rows[3]["Art_ImagePath"].ToString())"
+                                                 alt="thumb" width="80" height="80"
+                                                 class="img-fluid" />
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xl-4 stretch-card grid-margin">
-                <div class="card bg-dark text-white">
-                    <div class="card-body">
-                        <h2>Latest news</h2>
-
-                        <div class="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between">
-                            <div class="pr-3">
-                                <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                                <div class="fs-12">
-                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                </div>
-                            </div>
-                            <div class="rotate-img">
-                                <img src="~/Content/Images/dashboard/home_1.jpg"
-                                     alt="thumb"
-                                     class="img-fluid img-lg" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex border-bottom-blue pb-4 pt-4 align-items-center justify-content-between">
-                            <div class="pr-3">
-                                <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                                <div class="fs-12">
-                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                </div>
-                            </div>
-                            <div class="rotate-img">
-                                <img src="~/Content/Images/dashboard/home_2.jpg"
-                                     alt="thumb"
-                                     class="img-fluid img-lg" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex pt-4 align-items-center justify-content-between">
-                            <div class="pr-3">
-                                <h5>Virus Kills Member Of Advising Iran’s Supreme</h5>
-                                <div class="fs-12">
-                                    <span class="mr-2">Photo </span>10 Minutes ago
-                                </div>
-                            </div>
-                            <div class="rotate-img">
-                                <img src="~/Content/Images/dashboard/home_3.jpg"
-                                     alt="thumb"
-                                     class="img-fluid img-lg" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
         <div class="row" data-aos="fade-up">
             <div class="col-lg-3 stretch-card grid-margin">
                 <div class="card">
@@ -112,15 +144,15 @@
                             <li><a href="#">Politics</a></li>
                             <li><a href="#">International</a></li>
                             <li><a href="#">Finance</a></li>
-                            <li><a href="#">Health care</a></li>
-                            <li><a href="#">Technology</a></li>
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Media</a></li>
-                            <li><a href="#">Administration</a></li>
-                            <li><a href="#">Sports</a></li>
-                            <li><a href="#">Game</a></li>
-                            <li><a href="#">Art</a></li>
-                            <li><a href="#">Kids</a></li>
+                            @*<li><a href="#">Health care</a></li>
+                                <li><a href="#">Technology</a></li>
+                                <li><a href="#">Jobs</a></li>
+                                <li><a href="#">Media</a></li>
+                                <li><a href="#">Administration</a></li>
+                                <li><a href="#">Sports</a></li>
+                                <li><a href="#">Game</a></li>
+                                <li><a href="#">Art</a></li>
+                                <li><a href="#">Kids</a></li>*@
                         </ul>
                     </div>
                 </div>

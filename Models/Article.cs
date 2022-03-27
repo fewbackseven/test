@@ -9,6 +9,7 @@ using System.Data;
 //using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace test.Models
 {
@@ -38,7 +39,8 @@ namespace test.Models
 
 
         [DataType(DataType.MultilineText)]
-        [DisplayName("Article Paragraph content 2")]
+        [DisplayName("Article Paragraph content 1")]
+        [AllowHtml]
         public string ArticleParagraph1 { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -52,7 +54,7 @@ namespace test.Models
         public DateTime Articledate { get; set; }
 
 
-        public DataTable getArticles()
+        public DataTable getArticles(string sectionID)
         {
             string sSql = string.Empty;
             DataTable dtYear = new DataTable();
@@ -60,7 +62,7 @@ namespace test.Models
             try
             {
                 ObjDBHelper = new DBHelper();
-                sSql = "select * from [dbo].[Mas_Articles]";
+                sSql = "select * from [dbo].[Mas_Articles] where Art_isPublished = 'Y' and Art_Section='" + sectionID + "' order by Art_pkid desc ";
                 dtYear = ObjDBHelper.DBExecDataTable(sConString, sSql);
             }
             catch (Exception ex)
@@ -91,7 +93,32 @@ namespace test.Models
             throw new NotImplementedException();
         }
 
-        public bool saveArticle( Article article)
+        public string saveArticle( Article article)
+        {
+            string sSql = string.Empty;
+            string pkid = string.Empty;
+            bool sResult = false;
+            DBHelper objdbHelper;
+            try
+            {
+                objdbHelper = new DBHelper();
+                sSql = "Insert into [Mas_Articles] values( N'" + article.ArticleHeading + "', N'" + article.ArticleParagraph1 + "', N'" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N', N'" + article.AuthorName + "','" + article.ImagePath + "', 1)";
+                sResult = objdbHelper.DBExecuteNoNQuery(sConString, sSql);
+                if (sResult)
+                {
+                    sSql = "select Max(Art_pkid) from [dbo].[Mas_Articles]";
+                    pkid = objdbHelper.DBExecuteScalar(sConString, sSql).ToString();
+                }
+                            
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return pkid;
+        }
+
+        public bool updateArticle(Article article)
         {
             string sSql = string.Empty;
             bool sResult = false;
@@ -99,9 +126,26 @@ namespace test.Models
             try
             {
                 objdbHelper = new DBHelper();
-                sSql = "Insert into [Mas_Articles] values('" + article.ArticleHeading + "','" + article.ArticleParagraph1 + "','" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N','" + article.AuthorName + "','" + article.ImagePath + "')";
+                sSql = "Update [Mas_Articles] set  Art_Heading = N'" + article.ArticleHeading + "',  Art_Paragraph1 = N'" + article.ArticleParagraph1 + "', Art_Paragraph2 = N'" + article.ArticleParagraph2 + "',  Art_AuthorName = N'" + article.AuthorName + "',  Art_ImagePath = '" + article.ImagePath + "'  where Art_pkid = " + article.ArticleID + "";
                 sResult = objdbHelper.DBExecuteNoNQuery(sConString, sSql);
-                            
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return sResult;
+        }
+
+        public bool deleteArticle(string id)
+        {
+            string sSql = string.Empty;
+            bool sResult = false;
+            DBHelper objDBHelper = new DBHelper();
+            try
+            {
+                sSql = "Delete from [Mas_Articles] where Art_pkid = " + id + "";
+                sResult = objDBHelper.DBExecuteNoNQuery(sConString, sSql);
             }
             catch(Exception ex)
             {

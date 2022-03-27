@@ -1,7 +1,7 @@
 ﻿@model test.Models.Article
 @{
     ViewBag.Title = "ArticleCreate";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
 
@@ -28,7 +28,7 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ArticleHeading, htmlAttributes: new { @class = "control-label col-md-8" })
-                                    <div class="col-md-10">
+                                    <div class="col-md-10 col-sm-8">
                                         @Html.EditorFor(model => model.ArticleHeading, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.EditorFor(model => model.ArticleID, new { htmlAttributes = new { @class = "form-control", style="display:None" } })
                                         @Html.ValidationMessageFor(model => model.ArticleHeading, "", new { @class = "text-danger" })
@@ -38,7 +38,7 @@
                                 <br />
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.AuthorName, htmlAttributes: new { @class = "control-label col-md-8" })
-                                    <div class="col-md-10">
+                                    <div class="col-md-10 col-sm-8">
                                         @Html.EditorFor(model => model.AuthorName, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.AuthorName, "", new { @class = "text-danger" })
                                     </div>
@@ -49,6 +49,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ArticleParagraph1, htmlAttributes: new { @class = "control-label col-md-8" })
                                     <div class="col-md-10">
+                                        @*@Html.TextAreaFor(model => model.ArticleParagraph1)*@
                                         @Html.TextAreaFor(model => model.ArticleParagraph1, 6, 55, new { htmlAttributes = new { @class = "form-control", @placeholder = "Write your article here" } })
                                         @Html.ValidationMessageFor(model => model.ArticleParagraph1, "", new { @class = "text-danger" })
                                     </div>
@@ -68,7 +69,14 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-8" })
                                     <div class="col-md-10">
-                                        <input type="file" name="ImageFile" required />
+                                        <input type="file" name="ImageFile" />
+                                    </div>
+                                    <br />
+                                    <div class="col-md-10">
+                                        @if (ViewBag.imageSrc != null)
+                                        {
+                                            <img src="@Url.Content(ViewBag.imageSrc)" class="img-thumbnail" width="200" height="200" alt="banner" />
+                                        }
                                     </div>
                                 </div>
 
@@ -77,10 +85,14 @@
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
                                         <input type="submit" value="Save" class="btn btn-primary" />                                        
-                                         <a class="btn btn-primary" href="@Url.Action("ArticleGrid", "Article")">View Articles</a>
-                                        
+                                         
+                                        @if (ViewBag.pkid > 0)
+                                        {
+                                        <a class="btn btn-primary" href="@Url.Action("ArticleView", "Article", new { id = ViewBag.pkid })">Preview</a>
+                                        }
+
                                     </div>
-  
+                                    <br />
 
                                     @ViewBag.FileStatus
                                 </div>

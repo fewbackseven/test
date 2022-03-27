@@ -1,25 +1,32 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>@ViewBag.Title | Test </title>
+    <title>@ViewBag.Title</title>
 
-    <!-- plugin css for this page -->
     <link href="~/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="~/vendors/aos/dist/aos.css/aos.css" rel="stylesheet" />
 
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link href="~/Content/style.css" rel="stylesheet" />
-    <!-- endinject -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
+    <link href="~/Content/Layout1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
 </head>
 <body>
+
     <div class="container-scroller">
-        <div class="main-panel">
+        <div class="main-panel ">
             @*partial:partials/_navbar.html*@
             <header id="header">
                 <div class="container">
@@ -61,7 +68,7 @@
                                 <div>
                                     <a class="navbar-brand" href="@Url.Action("Index", "Home")">
 
-                                        <img src="~/Content/Images/yamaha_Logo.png" height="60" width="180" class="img-fluid" />
+                                        <img src="~/Content/Images/yamaha_Logo.png" height="60" width="200" class="img-fluid" />
 
                                     </a>
                                 </div>
@@ -105,16 +112,10 @@
                                                     <a class="nav-link" href="@Url.Action("ArticleGrid", "Article", new { sectionID = "1"})">Create Article</a>
                                                 </li>
                                             }
-                                            @if (ViewBag.usrName != null)
+                                            @if (ViewBag.usrName != "")
                                             {
                                                 <li class="nav-item">
                                                     <a href="#" class="nav-link"> @ViewBag.usrName </a>
-                                                </li>
-
-                                                <li class="nav-item">
-                                                    <a href="@Url.Action("DeleteGrid", "Home")">
-                                                        <img src="~/Content/Images/logout_icon.png" class="img-fluid" width="25" height="25" />
-                                                    </a>
                                                 </li>
                                             }
                                             else
@@ -124,31 +125,31 @@
                                                 </li>
                                             }
                                             @*<li class="nav-item">
-            <a class="nav-link" href="pages/travel.html">Travel</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="pages/contactus.html">Contact</a>
-        </li>*@
+                                                    <a class="nav-link" href="pages/travel.html">Travel</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="pages/contactus.html">Contact</a>
+                                                </li>*@
                                         </ul>
                                     </div>
                                 </div>
                                 @*<ul class="social-media">
-                                        <li>
-                                            <a href="#">
-                                                <i class="mdi mdi-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="mdi mdi-youtube"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="mdi mdi-twitter"></i>
-                                            </a>
-                                        </li>
-                                    </ul>*@
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-youtube"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="mdi mdi-twitter"></i>
+                                        </a>
+                                    </li>
+                                </ul>*@
                             </div>
                         </div>
                     </nav>
@@ -157,10 +158,88 @@
 
 
 
+            <div class="wrapper">
 
-            @RenderBody()
+                <!-- Sidebar -->
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h3>Bootstrap Sidebar</h3>
+                    </div>
 
-            @RenderSection("scripts", required: false)
+                    <ul class="list-unstyled components">
+                        <p> Edit Sections </p>
+                        <li class="active">
+                            <a href="@Url.Action("ArticleGrid", "Article", new { sectionID = "1"})" class="text-black-50">Latest News</a>
+                            @*<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-black-50">Home</a>
+                                <ul class="collapse list-unstyled" id="homeSubmenu">
+                                    <li>
+                                        <a href="#" class="text-black-50">Home 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-black-50">Home 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-black-50">Home 3</a>
+                                    </li>
+                                </ul>*@
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ArticleGrid", "Article", new { sectionID = "2"})" class="text-black-50">About</a>
+                        </li>
+                        <li>
+                            @*<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-black-50">Pages</a>
+                                <ul class="collapse list-unstyled" id="pageSubmenu">
+                                        <li>
+                                            <a href="#" class="text-black-50">Page 1</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="text-black-50">Page 2</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="text-black-50">Page 3</a>
+                                        </li>
+                                    </ul>*@
+                        </li>
+                        <li>
+                            <a href="#" class="text-black-50">Portfolio</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-black-50">Contact</a>
+                        </li>
+                    </ul>
+
+                </nav>
+
+                <!-- Page Content -->
+                <div id="content">
+                    <!-- We'll fill this with dummy content -->
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+
+                            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                                <i class="fas fa-align-left"></i>
+                                <span>Toggle Sidebar</span>
+                            </button>
+
+                        </div>
+
+
+                    </nav>
+
+                    <div>
+                        @RenderBody()
+                        @RenderSection("scripts", required: false)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
 
             <footer>
                 @*<div class="footer-top">
@@ -311,45 +390,39 @@
 
 
 
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            debugger;
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+
+                // close dropdowns
+                $('.collapse.in').toggleClass('in');
+                // and also adjust aria-expanded attributes we use for the open/closed arrows
+                // in our CSS
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
+        });
+    </script>
+
     <script src="~/vendors/js/vendor.bundle.base.js"></script>
     <script src="~/vendors/aos/dist/aos.js/aos.js"></script>
+
 
     <script src="~/Scripts/demo.js"></script>
     <script src="~/Scripts/jquery.easeScroll.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </body>
-
-@*<body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>*@
 </html>

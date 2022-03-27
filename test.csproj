@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ImageResizer.4.2.8\lib\net45\ImageResizer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -122,10 +125,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\userInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +210,7 @@
     <Content Include="Content\Images\inner\inner_7.jpg" />
     <Content Include="Content\Images\inner\inner_8.jpg" />
     <Content Include="Content\Images\inner\inner_9.jpg" />
+    <Content Include="Content\Images\logout_icon.png" />
     <Content Include="Content\Images\magazine\Magzine_1.jpg" />
     <Content Include="Content\Images\magazine\Magzine_10.jpg" />
     <Content Include="Content\Images\magazine\Magzine_11.jpg" />
@@ -254,6 +260,7 @@
     <Content Include="Content\Images\travel\Travel_8.png" />
     <Content Include="Content\Images\travel\Travel_9.png" />
     <Content Include="Content\Images\yamaha_Logo.png" />
+    <Content Include="Content\Layout1.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -325,6 +332,7 @@
     <Content Include="vendors\owl.carousel\dist\assets\owl.carousel.min.css" />
     <Content Include="vendors\owl.carousel\dist\assets\owl.theme.default.min.css" />
     <Content Include="vendors\owl.carousel\dist\owl.carousel.min.js" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -338,7 +346,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.eot" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="vendors\mdi\fonts\materialdesignicons-webfont.woff" />
@@ -346,6 +353,9 @@
     <Content Include="Views\Article\ArticleView.cshtml" />
     <Content Include="Views\Article\ArticleCreate.cshtml" />
     <Content Include="Views\Article\ArticleGrid.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage1.cshtml" />
+    <Content Include="Views\User\CreateUser.cshtml" />
+    <Content Include="Views\User\userLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
