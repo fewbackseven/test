@@ -11,12 +11,12 @@
         <div class="col-sm-12">
             <div class="card" data-aos="fade-up">
                 <div class="card-body">
-
+                    <h1>@ViewBag.sectionName</h1>
                     @using (Html.BeginForm("ArticleGrid", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
 
                         <p class="btn btn-primary">
-                            @Html.ActionLink("Create New", "ArticleCreate", "Article", routeValues: new { id = 0 }, htmlAttributes: new { })
+                            @Html.ActionLink("Create New", "ArticleCreate", "Article", routeValues: new { Article_id = 0, Art_Section = ViewBag.Art_Section }, htmlAttributes: new { })
 
                         </p>
                         <table tabindex="3" cellspacing="0" rules="all" class="table table-striped table-bordered table-hover" border="1" style="width: 100%; border-collapse: collapse;">
@@ -47,6 +47,9 @@
                                     <th scope="col" style="display:none">
                                         @Html.DisplayNameFor(model => model.ArticleID)
                                     </th>
+                                    <th scope="col" style="display:none">
+                                        @Html.DisplayNameFor(model => model.pageSectionID)
+                                    </th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -56,40 +59,43 @@
                                     System.Data.DataTable dt = ViewBag.ArticleList as System.Data.DataTable;
                                     foreach (System.Data.DataRow drDetailsRow in dt.Rows)
                                     {
-                                        <tr>
-                                            <td>
-                                                @drDetailsRow["Art_Heading"].ToString()
-                                            </td>
-                                            <td>
-                                                @drDetailsRow["Art_AuthorName"].ToString()
-                                            </td>
-                                            <td class="hidden" style="display:none">
-                                                @drDetailsRow["Art_ImagePath"].ToString()
-                                            </td>
-                                            <td class="hidden" style="display:none">
-                                                @drDetailsRow["Art_Paragraph1"].ToString()
-                                            </td>
-                                            <td class="hidden" style="display:none">
-                                                @drDetailsRow["Art_Paragraph2"].ToString()
-                                            </td>
-                                            <td>
-                                                @drDetailsRow["Art_isPublished"].ToString()
-                                            </td>
-                                            <td>
-                                                @drDetailsRow["Art_crDate"].ToString()
-                                            </td>
-                                            <td class="hidden" id="pkid" style="display:none">
-                                                @drDetailsRow["Art_pkid"].ToString()
-                                            </td>
-                                            <td>
-                                                @Html.ActionLink("Edit", "ArticleCreate", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() }, htmlAttributes: new { }) |
-                                                @Html.ActionLink("Preview", "ArticleView", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() }, htmlAttributes: new { }) 
+                                <tr>
+                                    <td>
+                                        @drDetailsRow["Art_Heading"].ToString()
+                                    </td>
+                                    <td>
+                                        @drDetailsRow["Art_AuthorName"].ToString()
+                                    </td>
+                                    <td class="hidden" style="display:none">
+                                        @drDetailsRow["Art_ImagePath"].ToString()
+                                    </td>
+                                    <td class="hidden" style="display:none">
+                                        @drDetailsRow["Art_Paragraph1"].ToString()
+                                    </td>
+                                    <td class="hidden" style="display:none">
+                                        @drDetailsRow["Art_Paragraph2"].ToString()
+                                    </td>
+                                    <td>
+                                        @drDetailsRow["Art_isPublished"].ToString()
+                                    </td>
+                                    <td>
+                                        @drDetailsRow["Art_crDate"].ToString()
+                                    </td>
+                                    <td class="hidden" id="pkid" style="display:none">
+                                        @drDetailsRow["Art_pkid"].ToString()
+                                    </td>
+                                    <td class="hidden" id="pkid" style="display:none">
+                                        @drDetailsRow["Art_Section"].ToString()
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "ArticleCreate", "Article", routeValues: new { Article_id = drDetailsRow["Art_pkid"].ToString(), Art_Section = ViewBag.Art_Section }, htmlAttributes: new { }) |
+                                        @Html.ActionLink("Preview", "ArticleView", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() }, htmlAttributes: new { })
 
-                                                @*<input type="button" class="btn btn-primary" href="@Url.Action("ArticleGrid", "Article",  new { id = drDetailsRow["Art_pkid"].ToString() })"/>*@
-                                                @*<input type="button" id="Delete" class="btn btn-primary" value="Delete"  />*@
+                                        @*<input type="button" class="btn btn-primary" href="@Url.Action("ArticleGrid", "Article",  new { id = drDetailsRow["Art_pkid"].ToString() })"/>*@
+                                        @*<input type="button" id="Delete" class="btn btn-primary" value="Delete"  />*@
 
-                                            </td>
-                                        </tr>
+                                    </td>
+                                </tr>
                                     }
 
                                 }

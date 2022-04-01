@@ -30,7 +30,7 @@
 
                         </p>
                         <p class="font-weight-600 fs-15 mb-5 mt-4">
-                            @Html.DisplayTextFor(model => model.ArticleParagraph2)
+                            @Html.Raw(Model.ArticleParagraph2)
                         </p>
 
                         <br />
@@ -39,7 +39,7 @@
                         @if (ViewBag.User == "Admin")
                         {
                             <p class="btn btn-primary">
-                                @Html.ActionLink("Edit", "ArticleCreate", "Article", new { id = ViewBag.ArticleID }, new { cssclass = "btn btn-primary" })
+                                @Html.ActionLink("Edit", "ArticleCreate", "Article", new { Article_id = ViewBag.ArticleID, Art_Section = ViewBag.Art_Section }, new { cssclass = "btn btn-primary" })
                             </p>
                             @*<p class="btn btn-primary">
                                 @Html.ActionLink("View Articles", "ArticleGrid", "Article",new { sectionID = "1"} , new { cssclass = "btn btn-primary" })

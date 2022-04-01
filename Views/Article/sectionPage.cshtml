@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "sectionPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="d-lg-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <p class="mb-0">
+                <h1 class="mr-3 text-danger">@ViewBag.sectionName</h1>
+            </p>
+            
+        </div>
+        <div class="d-flex">
+            
+            @*<span class="mr-3 text-danger">Wed, March 4, 2020</span>
+            <span class="text-danger">30°C,London</span>*@
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-lg-9 stretch-card grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        @if (ViewBag.ArticleList != null)
+                        {
+                            System.Data.DataTable dt = ViewBag.ArticleList as System.Data.DataTable;
+                            foreach (System.Data.DataRow drDetailsRow in dt.Rows)
+                            {
+
+                                <a href="@Url.Action("ArticleView", "Article", new { id = drDetailsRow["Art_pkid"].ToString() })">
+                                    <div class="row">
+                                        <div class="col-sm-4 grid-margin">
+
+                                            <div class="position-relative">
+                                                <div class="rotate-img">
+                                                    <img src="@Url.Content(drDetailsRow["Art_ImagePath"].ToString())"
+                                                         alt="thumb"
+                                                         class="img-fluid" />
+                                                </div>
+                                                <div class="badge-positioned">
+                                                    <span class="badge badge-danger font-weight-bold">Flash news</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8  grid-margin">
+                                            <h2 class="mb-2 font-weight-600">
+                                                @drDetailsRow["Art_heading"].ToString()
+                                            </h2>
+                                            <div class="fs-13 mb-2">
+                                                <span class="mr-2">Photo </span>10 Minutes ago
+                                            </div>
+                                            <p class="mb-0">
+                                                @if (drDetailsRow["Art_Paragraph1"].ToString().Length > 100)
+                                                {
+                                                    @drDetailsRow["Art_Paragraph1"].ToString().Substring(0, 100)
+                                                }
+                                                else
+                                                {
+                                                    @drDetailsRow["Art_Paragraph1"].ToString()
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -62,8 +62,17 @@
                                         @Html.TextAreaFor(model => model.ArticleParagraph2, 6, 55, new { htmlAttributes = new { @class = "form-control", placeholder = "write your article here" } })
                                         @Html.ValidationMessageFor(model => model.ArticleParagraph2, "", new { @class = "text-danger" })
                                     </div>
-
                                 </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model=>model.newsSectionID,htmlAttributes:new { @class="control-label col-md-8"})
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("newsSections")
+                                        @Html.ValidationMessageFor(model => model.ArticleParagraph2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
                                 <br />
                                 <br />
                                 <div class="form-group">

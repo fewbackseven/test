@@ -15,7 +15,7 @@ namespace test.Controllers
     {
         public ActionResult ArticleView(string id)
         {
-            
+
 
             userInfo objUserDetails = new userInfo();
             if (Session["objUserInSeesion"] != null)
@@ -28,7 +28,7 @@ namespace test.Controllers
                     ViewBag.User = "User";
             }
 
-                Article objArticle = new Article();
+            Article objArticle = new Article();
             if (int.Parse(id) != 0)
             {
                 DataTable article = objArticle.getArticle(int.Parse(id));
@@ -38,6 +38,8 @@ namespace test.Controllers
                 objArticle.ArticleParagraph2 = article.Rows[0]["Art_Paragraph2"].ToString();
                 objArticle.ArticleID = int.Parse(article.Rows[0]["Art_pkid"].ToString());
                 objArticle.isPublished = article.Rows[0]["Art_isPublished"].ToString().ToCharArray()[0];
+                objArticle.pageSectionID = int.Parse(article.Rows[0]["Art_Section"].ToString());
+                objArticle.newsSectionID = int.Parse(article.Rows[0]["Art_NewsSection"].ToString());
                 ViewBag.ArticleID = objArticle.ArticleID;
                 string filePath = article.Rows[0]["Art_ImagePath"].ToString();
 
@@ -46,7 +48,7 @@ namespace test.Controllers
                 //objArticle.ImagePath = "~/Images/" + relativePath;
                 //Session["PreviousImage"] = objArticle.ImagePath;                
                 //ViewBag.imageSrc = objArticle.ImagePath;
-
+                ViewBag.Art_Section = objArticle.pageSectionID;
                 ViewBag.imageSrc = filePath;
                 Session["ArticleID"] = objArticle.ArticleID;
                 Session["isPublished"] = objArticle.isPublished;
@@ -61,9 +63,13 @@ namespace test.Controllers
 
 
 
-        public ActionResult ArticleCreate(string id)
+        public ActionResult ArticleCreate(string Article_id, string Art_Section)
         {
             userInfo objUserDetails = new userInfo();
+            Article objArticle = new Article();
+            DataTable dtNewsSections = new DataTable();
+            List<SelectListItem> newsItems = new List<SelectListItem>();
+
             if (Session["objUserInSeesion"] != null)
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
@@ -73,27 +79,46 @@ namespace test.Controllers
                 else
                     ViewBag.User = "User";
 
+                dtNewsSections = objArticle.getNewsSections();
+                foreach (DataRow dr in dtNewsSections.Rows)
+                {
+                    newsItems.Add(new SelectListItem { Value = dr["NS_pkid"].ToString(), Text = dr["NS_name"].ToString() });
+                }
 
+                ViewBag.newsSections = newsItems;
 
                 ViewBag.pkid = 0;
                 ViewBag.User = "Admin";
+                ViewBag.Art_Section = Art_Section;
+                Session["Art_Sections"] = Art_Section;
                 Session["isPublished"] = 'N';
                 Session["ArticleID"] = "0";
                 Session["PreviousImage"] = null;
 
 
 
-                if (int.Parse(id) != 0)
+                if (int.Parse(Article_id) != 0)
                 {
-                    Article objArticle = new Article();
-                    DataTable article = objArticle.getArticle(int.Parse(id));
+
+                    DataTable article = objArticle.getArticle(int.Parse(Article_id));
                     objArticle.ArticleHeading = article.Rows[0]["Art_Heading"].ToString();
                     objArticle.ArticleParagraph1 = article.Rows[0]["Art_Paragraph1"].ToString();
                     objArticle.AuthorName = article.Rows[0]["Art_AuthorName"].ToString();
                     objArticle.ArticleParagraph2 = article.Rows[0]["Art_Paragraph2"].ToString();
                     objArticle.ArticleID = int.Parse(article.Rows[0]["Art_pkid"].ToString());
                     objArticle.isPublished = article.Rows[0]["Art_isPublished"].ToString().ToCharArray()[0];
+                    objArticle.pageSectionID = int.Parse(article.Rows[0]["Art_Section"].ToString());
+                    objArticle.newsSectionID = int.Parse(article.Rows[0]["Art_NewsSection"].ToString());
+                    dtNewsSections = objArticle.getNewsSections();
+                    foreach (DataRow dr in dtNewsSections.Rows)
+                    {
+                        if (int.Parse(dr["NS_pkid"].ToString()) != int.Parse(article.Rows[0]["Art_NewsSection"].ToString()))
+                            newsItems.Add(new SelectListItem { Value = dr["NS_pkid"].ToString(), Text = dr["NS_name"].ToString() });
+                        else
+                            newsItems.Add(new SelectListItem { Value = dr["NS_pkid"].ToString(), Text = dr["NS_name"].ToString(), Selected = true });
+                    }
 
+                    ViewBag.newsSections = newsItems;
 
                     //Uncomment For Debugging
                     //string filePath = article.Rows[0]["Art_ImagePath"].ToString();
@@ -120,7 +145,7 @@ namespace test.Controllers
 
 
         [HttpPost]
-        public ActionResult ArticleCreate(Article membervalues)
+        public ActionResult ArticleCreate(Article membervalues, string newsSections)
         {
             string previousImagePath = string.Empty;
             Article objArticleModel = new Article();
@@ -131,6 +156,9 @@ namespace test.Controllers
                 char checkifPublished = Session["isPublished"].ToString().ToCharArray()[0];
                 if (checkifPublished == 'N')
                 {
+                    membervalues.pageSectionID = int.Parse(Session["Art_Sections"] as string);
+                    membervalues.newsSectionID = int.Parse(newsSections);
+
                     if (membervalues.ImageFile != null)
                     {
                         //Use Namespace called :  System.IO  
@@ -167,7 +195,7 @@ namespace test.Controllers
                                 file.Delete();
                         }
 
-                        
+
                         //Uncomment For Debugging
                         //ViewBag.imageSrc = "~/Images/" + FileName;
 
@@ -199,20 +227,22 @@ namespace test.Controllers
                     ViewBag.pkid = ArticleID;
 
 
-                     
+
 
                     if (ArticleID == 0)
                     {
                         string dataSaved = objArticleModel.saveArticle(membervalues);
                         Session["ArticleID"] = dataSaved;
                         ViewBag.pkid = int.Parse(dataSaved);
+                        return RedirectToAction("ArticleGrid", new { sectionID = "1" });
                     }
                     else
                     {
-                        
+
                         bool dataSaved = objArticleModel.updateArticle(membervalues);
+                        return RedirectToAction("ArticleGrid", new { sectionID = "1" });
                     }
-                    return View();
+
                 }
                 else
                 {
@@ -224,7 +254,7 @@ namespace test.Controllers
             catch (Exception ex)
             {
 
-                ViewBag.FileStatus = "Error while saving the file" + ex.Message;
+                ViewBag.FileStatus = "Error: " + ex.Message;
             }
             //}
             return View();
@@ -234,6 +264,9 @@ namespace test.Controllers
         public ActionResult ArticleGrid(string sectionID)
         {
             userInfo objUserDetails = new userInfo();
+            ViewBag.Art_Section = sectionID;
+            ViewBag.sectionName = getSectionName(sectionID);
+            Session["Art_Sections"] = sectionID;
             if (Session["objUserInSeesion"] != null)
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
@@ -253,8 +286,24 @@ namespace test.Controllers
 
         }
 
+        private string getSectionName(string sectionID)
+        {
+            string res = "";
+            if (sectionID == "1") { res = "Business"; } else if (sectionID == "2") { res = "Politics"; } else if (sectionID == "3") { res = "Art & Literature"; } else if (sectionID == "4") { res = "Cinema"; } else if (sectionID == "5") { res = "Sports"; }
+            return res;
+        }
 
-        
+        public ActionResult sectionPage(string newsSectionID)
+        {
+            Article objArticle = new Article();
+            ViewBag.sectionName = getSectionName(newsSectionID);
+            DataTable emps = objArticle.getNewsArticles(newsSectionID);
+            ViewBag.ArticleList = emps;
+
+            return View();
+        }
+
+
         public ActionResult DeleteGrid()
         {
             //Article objArticle = new Article();
@@ -268,9 +317,12 @@ namespace test.Controllers
                 Session["objUserInseesion"] = null;
             }
 
-                return RedirectToAction("Index", "Home");
-            
+            return RedirectToAction("Index", "Home");
+
         }
+
+
+
 
     }
 }

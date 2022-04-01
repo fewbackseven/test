@@ -61,7 +61,7 @@
                                 <div>
                                     <a class="navbar-brand" href="@Url.Action("Index", "Home")">
 
-                                        <img src="~/Content/Images/yamaha_Logo.png" height="60" width="180" class="img-fluid" />
+                                        <img src="~/Content/Images/yamaha_Logo.png" height="60" width="180"  class="img-fluid" />
 
                                     </a>
                                 </div>
@@ -83,21 +83,21 @@
                                                 </button>
                                             </li>
                                             <li class="nav-item active">
-                                                <a class="nav-link" href="index.html">ಮುಖಪುಟ</a>
+                                                <a class="nav-link" href="@Url.Action("sectionPage", "Article", new { newsSectionID = "3"})">ನಾಡು ನುಡಿ</a>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="pages/business.html">ವಾಣಿಜ್ಯೋಧ್ಯಮ</a>
+                                                <a class="nav-link" href="@Url.Action("sectionPage", "Article", new { newsSectionID = "1"})">ವಾಣಿಜ್ಯೋಧ್ಯಮ</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="pages/sports.html">ಕ್ರೀಡಾ ಸುದ್ದಿ</a>
+                                                <a class="nav-link" href="@Url.Action("sectionPage", "Article", new { newsSectionID = "5"})">ಕ್ರೀಡಾ ಸುದ್ದಿ</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="pages/art.html">ಸಿನಿಮಾ</a>
+                                                <a class="nav-link" href="@Url.Action("sectionPage", "Article", new { newsSectionID = "4"})">ಸಿನಿಮಾ</a>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link" href="pages/politics.html">ರಾಜಕೀಯ</a>
+                                                <a class="nav-link" href="@Url.Action("sectionPage", "Article", new { newsSectionID = "2"})">ರಾಜಕೀಯ</a>
                                             </li>
                                             @if (ViewBag.User == "Admin")
                                             {

@@ -163,13 +163,13 @@
                 <!-- Sidebar -->
                 <nav id="sidebar">
                     <div class="sidebar-header">
-                        <h3>Bootstrap Sidebar</h3>
+                        <h3>Edit Sections</h3>
                     </div>
 
                     <ul class="list-unstyled components">
-                        <p> Edit Sections </p>
-                        <li class="active">
-                            <a href="@Url.Action("ArticleGrid", "Article", new { sectionID = "1"})" class="text-black-50">Latest News</a>
+                        
+                        <li id="LatestNews" >
+                            <a id="latestNews" href="@Url.Action("ArticleGrid", "Article", new { sectionID = "1"})" class="text-black-50">Latest News</a>
                             @*<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-black-50">Home</a>
                                 <ul class="collapse list-unstyled" id="homeSubmenu">
                                     <li>
@@ -183,8 +183,8 @@
                                     </li>
                                 </ul>*@
                         </li>
-                        <li>
-                            <a href="@Url.Action("ArticleGrid", "Article", new { sectionID = "2"})" class="text-black-50">About</a>
+                        <li id="FlashNews" >
+                            <a id="flashNews" href="@Url.Action("ArticleGrid", "Article", new { sectionID = "2"})" class="text-black-50">Flash News</a>
                         </li>
                         <li>
                             @*<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-black-50">Pages</a>
@@ -396,6 +396,8 @@
         $(document).ready(function () {
             debugger;
 
+
+
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
 
@@ -406,7 +408,16 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
 
+
+            
+
         });
+
+        $('#flashNews').on('click', function () {
+            debugger;
+            $('#LatestNews').removeClass("active");
+            $('#FlashNews').addClass("active");
+        })
     </script>
 
     <script src="~/vendors/js/vendor.bundle.base.js"></script>

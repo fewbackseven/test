@@ -44,6 +44,7 @@ namespace test.Models
         public string ArticleParagraph1 { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [AllowHtml]
         [DisplayName("Article Paragraph content 2")]
         public string  ArticleParagraph2 { get; set; }
 
@@ -52,6 +53,13 @@ namespace test.Models
         public HttpPostedFileBase ImageFile { get; set; }
 
         public DateTime Articledate { get; set; }
+
+        public int pageSectionID { get; set; }
+
+        [DisplayName("Select News Section")]
+        public int newsSectionID { get; set; }
+
+
 
 
         public DataTable getArticles(string sectionID)
@@ -62,7 +70,8 @@ namespace test.Models
             try
             {
                 ObjDBHelper = new DBHelper();
-                sSql = "select * from [dbo].[Mas_Articles] where Art_isPublished = 'Y' and Art_Section='" + sectionID + "' order by Art_pkid desc ";
+                //sSql = "select * from [dbo].[Mas_Articles] where Art_isPublished = 'Y' and Art_Section='" + sectionID + "' order by Art_pkid desc ";
+                sSql = "select * from [dbo].[Mas_Articles] where  Art_Section='" + sectionID + "' order by Art_pkid desc ";
                 dtYear = ObjDBHelper.DBExecDataTable(sConString, sSql);
             }
             catch (Exception ex)
@@ -90,7 +99,7 @@ namespace test.Models
 
             }
             return dtYear;
-            throw new NotImplementedException();
+            
         }
 
         public string saveArticle( Article article)
@@ -102,7 +111,7 @@ namespace test.Models
             try
             {
                 objdbHelper = new DBHelper();
-                sSql = "Insert into [Mas_Articles] values( N'" + article.ArticleHeading + "', N'" + article.ArticleParagraph1 + "', N'" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N', N'" + article.AuthorName + "','" + article.ImagePath + "', 1)";
+                sSql = "Insert into [Mas_Articles] values( N'" + article.ArticleHeading + "', N'" + article.ArticleParagraph1 + "', N'" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N', N'" + article.AuthorName + "','" + article.ImagePath + "', '" + article.pageSectionID + "', '" + article.newsSectionID + "')";
                 sResult = objdbHelper.DBExecuteNoNQuery(sConString, sSql);
                 if (sResult)
                 {
@@ -117,6 +126,25 @@ namespace test.Models
             }
             return pkid;
         }
+
+        public DataTable getNewsSections()
+        {
+            string sSql = string.Empty;
+            DataTable dt = new DataTable();
+            DBHelper objDBHelper = new DBHelper();
+            try
+            {
+                sSql = "select * from [Mas_NewsSection]";
+                dt = objDBHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return dt;
+        }
+
 
         public bool updateArticle(Article article)
         {
@@ -152,6 +180,23 @@ namespace test.Models
 
             }
             return sResult;
+        }
+
+        public DataTable getNewsArticles(string newsSectionID)
+        {
+            string sSql = string.Empty;
+            DBHelper objDBHelper = new DBHelper();
+            DataTable dt = new DataTable();
+            try
+            {
+                sSql = "select * from Mas_Articles where Art_NewsSection = " + newsSectionID +"";
+                dt = objDBHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return dt;
         }
     }
 }

@@ -19,7 +19,10 @@ namespace test.Controllers
             //For Latest News section, ID=1
             DataTable emps = objArticle.getArticles("1");
             ViewBag.ArticleList = emps;
-            
+
+            DataTable Flash_News = objArticle.getArticles("2");
+            ViewBag.flashNewsList = Flash_News;
+
             //string filePath = emps.Rows[0]["Art_ImagePath"].ToString();
             //ViewBag.imgSrc = filePath;
             //ViewBag.ArticleHeading = emps.Rows[0]["Art_Heading"].ToString();

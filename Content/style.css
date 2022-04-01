@@ -493,8 +493,9 @@ mark,
 }
 
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
+    
 }
 
 .img-thumbnail {
@@ -10561,7 +10562,7 @@ header .navbar-bottom .navbar-toggler {
 
 .content-wrapper .banner-content {
   position: absolute;
-  padding: 40px 60px;
+  padding: 0px 0px;
   left: 0px;
   bottom: 0px;
   color: #ffffff;
@@ -10569,7 +10570,7 @@ header .navbar-bottom .navbar-toggler {
 
 @media (max-width: 999px) {
   .content-wrapper .banner-content {
-    padding: 12px 12px;
+    padding: 0px 0px;
   }
   .content-wrapper .banner-content h1 {
     font-size: 18px;
