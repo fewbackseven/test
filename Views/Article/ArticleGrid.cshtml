@@ -89,7 +89,7 @@
                                     </td>
                                     <td>
                                         @Html.ActionLink("Edit", "ArticleCreate", "Article", routeValues: new { Article_id = drDetailsRow["Art_pkid"].ToString(), Art_Section = ViewBag.Art_Section }, htmlAttributes: new { }) |
-                                        @Html.ActionLink("Preview", "ArticleView", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() }, htmlAttributes: new { })
+                                        @Html.ActionLink("Publish", "ArticleView", "Article", routeValues: new { id = drDetailsRow["Art_pkid"].ToString() }, htmlAttributes: new { })
 
                                         @*<input type="button" class="btn btn-primary" href="@Url.Action("ArticleGrid", "Article",  new { id = drDetailsRow["Art_pkid"].ToString() })"/>*@
                                         @*<input type="button" id="Delete" class="btn btn-primary" value="Delete"  />*@

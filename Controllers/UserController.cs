@@ -15,14 +15,28 @@ namespace test.Controllers
         public ActionResult userLogin()
         {
             userInfo objUserDetails = new userInfo();
+            DataTable dtMonth = new DataTable();
+            List<SelectListItem> ddlLoginMonth = new List<SelectListItem>();
+            string ddlMonths = "";
+            dtMonth = objUserDetails.getLoginMonthsForSelection(ddlMonths);
+            foreach(DataRow dr in dtMonth.Rows)
+            {
+                ddlLoginMonth.Add(new SelectListItem { Value= dr["Month_pkid"].ToString(), Text = dr["Month_Name"].ToString()});
+            }
+
+            ViewBag.ddlMonths = ddlLoginMonth;
+
             if (Session["objUserInSeesion"] != null)
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
                 ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
                 if (objUserDetails.usrType == "A")
                     ViewBag.User = "Admin";
                 else
                     ViewBag.User = "User";
+
+                return View();
             }
 
 
@@ -30,19 +44,22 @@ namespace test.Controllers
         }
 
         [HttpPost]
-        public ActionResult userLogin(userInfo objUsrInfoFromPage)
+        public ActionResult userLogin(userInfo objUsrInfoFromPage, string ddlMonths)
         {
             DataTable dtUser = new DataTable();
+            DataTable dtMonths = new DataTable();
 
             try
             {
-                dtUser = objUsrInfo.getUser(objUsrInfoFromPage.usrEmailID, objUsrInfoFromPage.usrPassWord);
+                dtUser = objUsrInfo.getUser(objUsrInfoFromPage.usrEmailID, objUsrInfoFromPage.usrPassWord, ddlMonths);
+                dtMonths = objUsrInfo.getLoginMonthsFromMonthID(ddlMonths);
                 if(dtUser.Rows.Count>0)
                 {
                     objUsrInfo.fullName = dtUser.Rows[0]["usr_FullName"].ToString();
                     objUsrInfo.usrType = dtUser.Rows[0]["usr_Type"].ToString();
+                    objUsrInfo.loginMonthName = dtMonths.Rows[0]["Month_Name"].ToString();
                     Session["objUserInSeesion"] = objUsrInfo;
-                    return RedirectToActionPermanent("Index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -96,7 +113,7 @@ namespace test.Controllers
                     }
                     else
                     {
-                        TempData["msg"] = "<script>alert('Error Couldnt create the user');</script>";
+                        TempData["msg"] = "<script>alert('Error Could not create the user');</script>";
                         return View();
                     }
                 }

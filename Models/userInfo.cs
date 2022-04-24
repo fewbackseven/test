@@ -64,8 +64,12 @@ namespace test.Models
 
         public DateTime usrCreatedDate { get; set; }
 
+        
 
         public string usrType { get; set; }
+
+        public string loginMonthName { get; set; }
+
 
         public string createUser(userInfo objUsrInfo)
         {
@@ -93,7 +97,7 @@ namespace test.Models
         }
 
 
-        public DataTable getUser(string usrEmailID, string usrPassWord)
+        public DataTable getUser(string usrEmailID, string usrPassWord, string selectedMonth)
         {
             string sSql = string.Empty;
             DataTable dtUser = new DataTable();
@@ -110,6 +114,52 @@ namespace test.Models
             }
 
             return dtUser;
+        }
+
+
+        public DataTable getLoginMonthsForSelection(string selectedMonth)
+        {
+            string sSql = string.Empty;
+            DataTable dt = new DataTable();
+            DBHelper objDbHelper = new DBHelper();
+            try
+            {
+                if (selectedMonth != "")
+                    sSql = "select * from Month_Master where Month_Name = '" + selectedMonth + "' ";
+                else
+                    sSql = "select * from Month_Master ";
+
+                dt = objDbHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return dt;
+        }
+
+
+        internal DataTable getLoginMonthsFromMonthID(string ddlMonths)
+        {
+            string sSql = string.Empty;
+            DataTable dt = new DataTable();
+            DBHelper objDbHelper = new DBHelper();
+            try
+            {
+                if (ddlMonths != "")
+                    sSql = "select * from Month_Master where Month_pkid = '" + ddlMonths + "' ";
+                else
+                    sSql = "select * from Month_Master ";
+
+                dt = objDbHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return dt;
         }
 
     }

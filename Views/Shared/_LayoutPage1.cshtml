@@ -108,12 +108,15 @@
                                             </li>
                                             @if (ViewBag.User == "Admin")
                                             {
-                                                <li class="nav-item">
+                                                @*<li class="nav-item">
                                                     <a class="nav-link" href="@Url.Action("ArticleGrid", "Article", new { sectionID = "1"})">Create Article</a>
-                                                </li>
+                                                </li>*@
                                             }
                                             @if (ViewBag.usrName != "")
                                             {
+                                                <li class="nav-item">
+                                                    <a href="#" class="nav-link"> @ViewBag.loginMonth </a>
+                                                </li>
                                                 <li class="nav-item">
                                                     <a href="#" class="nav-link"> @ViewBag.usrName </a>
                                                 </li>
@@ -125,11 +128,11 @@
                                                 </li>
                                             }
                                             @*<li class="nav-item">
-                                                    <a class="nav-link" href="pages/travel.html">Travel</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="pages/contactus.html">Contact</a>
-                                                </li>*@
+            <a class="nav-link" href="pages/travel.html">Travel</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/contactus.html">Contact</a>
+        </li>*@
                                         </ul>
                                     </div>
                                 </div>

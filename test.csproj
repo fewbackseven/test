@@ -357,6 +357,7 @@
     <Content Include="Views\User\CreateUser.cshtml" />
     <Content Include="Views\User\userLogin.cshtml" />
     <Content Include="Views\Article\sectionPage.cshtml" />
+    <Content Include="Views\Article\ArticlePublish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

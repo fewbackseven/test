@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,14 +14,18 @@ namespace test.Controllers
         public ActionResult Index()
         {            
             Article objArticle = new Article();
-            
-                                   
+            userInfo objGetMonthInfo = new userInfo();
+
+            int currentMonth = DateTime.Now.Month;
+            string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(currentMonth);
+            string currentYear = DateTime.Now.Year.ToString();
+            string monthID = objGetMonthInfo.getLoginMonthsForSelection(monthName + "-" + currentYear).Rows[0]["Month_pkid"].ToString();
 
             //For Latest News section, ID=1
-            DataTable emps = objArticle.getArticles("1");
+            DataTable emps = objArticle.getArticles("1", monthID);
             ViewBag.ArticleList = emps;
 
-            DataTable Flash_News = objArticle.getArticles("2");
+            DataTable Flash_News = objArticle.getArticles("2", monthID);
             ViewBag.flashNewsList = Flash_News;
 
             //string filePath = emps.Rows[0]["Art_ImagePath"].ToString();
@@ -33,6 +38,7 @@ namespace test.Controllers
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
                 ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
                 if (objUserDetails.usrType == "A")
                     ViewBag.User = "Admin";
                 else
@@ -75,6 +81,7 @@ namespace test.Controllers
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
                 ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
                 if (objUserDetails.usrType == "A")
                     ViewBag.User = "Admin";
                 else
@@ -87,7 +94,7 @@ namespace test.Controllers
             Article objArticle = new Article();
 
 
-            DataTable emps = objArticle.getArticles("1");
+            DataTable emps = objArticle.getArticles("1","1");
 
             return View();
         }

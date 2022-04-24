@@ -74,6 +74,8 @@ namespace test.Controllers
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
                 ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
+                Session["loginMonth"] = objUserDetails.loginMonthName;
                 if (objUserDetails.usrType == "A")
                     ViewBag.User = "Admin";
                 else
@@ -88,7 +90,7 @@ namespace test.Controllers
                 ViewBag.newsSections = newsItems;
 
                 ViewBag.pkid = 0;
-                ViewBag.User = "Admin";
+                //ViewBag.User = "Admin";
                 ViewBag.Art_Section = Art_Section;
                 Session["Art_Sections"] = Art_Section;
                 Session["isPublished"] = 'N';
@@ -140,15 +142,16 @@ namespace test.Controllers
                 }
                 return View();
             }
+
             return RedirectToActionPermanent("Index", "Home");
         }
-
 
         [HttpPost]
         public ActionResult ArticleCreate(Article membervalues, string newsSections)
         {
             string previousImagePath = string.Empty;
             Article objArticleModel = new Article();
+            userInfo objGetMonths = new userInfo();
             //if(ModelState.IsValid)
             //{
             try
@@ -156,7 +159,9 @@ namespace test.Controllers
                 char checkifPublished = Session["isPublished"].ToString().ToCharArray()[0];
                 if (checkifPublished == 'N')
                 {
+                    membervalues.monthID = int.Parse(objGetMonths.getLoginMonthsForSelection(Session["loginMonth"].ToString()).Rows[0]["Month_pkid"].ToString());
                     membervalues.pageSectionID = int.Parse(Session["Art_Sections"] as string);
+
                     membervalues.newsSectionID = int.Parse(newsSections);
 
                     if (membervalues.ImageFile != null)
@@ -261,9 +266,54 @@ namespace test.Controllers
         }
 
 
+        public ActionResult ArticlePublish(string Article_id, string Art_Section)
+        {
+            userInfo objUserDetails = new userInfo();
+            Article objArticle = new Article();
+            if (Session["objUserInSeesion"] != null)
+            {
+                objUserDetails = Session["objUserInSeesion"] as userInfo;
+                ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
+                Session["loginMonth"] = objUserDetails.loginMonthName;
+                if (objUserDetails.usrType == "A")
+                    ViewBag.User = "Admin";
+                else
+                    ViewBag.User = "User";
+
+                if (int.Parse(Article_id) != 0)
+                {
+
+                    DataTable article = objArticle.getArticle(int.Parse(Article_id));
+                    objArticle.ArticleHeading = article.Rows[0]["Art_Heading"].ToString();
+                    objArticle.ArticleParagraph1 = article.Rows[0]["Art_Paragraph1"].ToString();
+                    objArticle.AuthorName = article.Rows[0]["Art_AuthorName"].ToString();
+                    objArticle.ArticleParagraph2 = article.Rows[0]["Art_Paragraph2"].ToString();
+                    objArticle.ArticleID = int.Parse(article.Rows[0]["Art_pkid"].ToString());
+                    objArticle.isPublished = article.Rows[0]["Art_isPublished"].ToString().ToCharArray()[0];
+                    objArticle.articlePublishDate = DateTime.Now;
+                    ViewBag.articlePkid = Article_id;
+                }
+                return View(objArticle);
+            }
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ArticlePublish(Article membervalues)
+        {
+            Article objArticleModel = new Article();
+            bool isPublished = false;
+            isPublished = objArticleModel.publishArticle(membervalues.ArticleID, membervalues.articlePublishDate);
+            return RedirectToAction("ArticleGrid", new { sectionID = "1" });
+
+        }
+
         public ActionResult ArticleGrid(string sectionID)
         {
             userInfo objUserDetails = new userInfo();
+            string monthID = string.Empty;
             ViewBag.Art_Section = sectionID;
             ViewBag.sectionName = getSectionName(sectionID);
             Session["Art_Sections"] = sectionID;
@@ -271,13 +321,17 @@ namespace test.Controllers
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
                 ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
+                if (objUserDetails.getLoginMonthsForSelection(objUserDetails.loginMonthName.ToString()).Rows.Count > 0)
+                    monthID = objUserDetails.getLoginMonthsForSelection(objUserDetails.loginMonthName.ToString()).Rows[0]["Month_pkid"].ToString();
+
                 if (objUserDetails.usrType == "A")
                     ViewBag.User = "Admin";
                 else
                     ViewBag.User = "User";
 
                 Article objArticle = new Article();
-                DataTable emps = objArticle.getArticles(sectionID);
+                DataTable emps = objArticle.getArticles(sectionID, monthID);
 
                 ViewBag.ArticleList = emps;
                 return View();
@@ -289,12 +343,24 @@ namespace test.Controllers
         private string getSectionName(string sectionID)
         {
             string res = "";
-            if (sectionID == "1") { res = "Business"; } else if (sectionID == "2") { res = "Politics"; } else if (sectionID == "3") { res = "Art & Literature"; } else if (sectionID == "4") { res = "Cinema"; } else if (sectionID == "5") { res = "Sports"; }
+            if (sectionID == "1") { res = "Latest News"; } else if (sectionID == "2") { res = "Flash News"; } else if (sectionID == "3") { res = "Art & Literature"; } else if (sectionID == "4") { res = "Cinema"; } else if (sectionID == "5") { res = "Sports"; }
             return res;
         }
 
         public ActionResult sectionPage(string newsSectionID)
         {
+            userInfo objUserDetails = new userInfo();
+            if (Session["objUserInSeesion"] != null)
+            {
+                objUserDetails = Session["objUserInSeesion"] as userInfo;
+                ViewBag.usrName = objUserDetails.fullName.ToString();
+                ViewBag.loginMonth = objUserDetails.loginMonthName;
+                if (objUserDetails.usrType == "A")
+                    ViewBag.User = "Admin";
+                else
+                    ViewBag.User = "User";
+            }
+
             Article objArticle = new Article();
             ViewBag.sectionName = getSectionName(newsSectionID);
             DataTable emps = objArticle.getNewsArticles(newsSectionID);
@@ -304,18 +370,20 @@ namespace test.Controllers
         }
 
 
+        [HttpPost]
         public ActionResult DeleteGrid()
         {
-            //Article objArticle = new Article();
-            //if (id != null)
-            //{
-            //    bool isDeleted = objArticle.deleteArticle(id);
-            //}
-
-            if (Session["objUserInSeesion"] != null)
+            Article objarticle = new Article();
+            string id = ViewBag.ArticleID;
+            if (id != null)
             {
-                Session["objUserInseesion"] = null;
+                bool isdeleted = objarticle.deleteArticle(id);
             }
+
+            //if (Session["objUserInSeesion"] != null)
+            //{
+            //    Session["objUserInseesion"] = null;
+            //}
 
             return RedirectToAction("Index", "Home");
 

@@ -14,43 +14,44 @@
                         <h1 class="mt-5">
                             @Html.DisplayTextFor(model => model.ArticleHeading)
                         </h1>
-                        <br />
-                        <label> Written By: @Html.DisplayTextFor(model => model.AuthorName) </label>
-
-                        <br />
-                        <br />
-
-                        <!--<img src="@Url.Content(@ViewBag.imageSrc )"-->
-                        <img src="@Url.Content(@ViewBag.imageSrc )"
-                             alt="banner"
-                             class="img-fluid mb-5" />
-
-                        <p class="font-weight-600 fs-15">
-                            @Html.Raw(Model.ArticleParagraph1)
-
-                        </p>
-                        <p class="font-weight-600 fs-15 mb-5 mt-4">
-                            @Html.Raw(Model.ArticleParagraph2)
-                        </p>
-
-                        <br />
-                        <br />
-
-                        @if (ViewBag.User == "Admin")
+                        @using (Html.BeginForm("DeleteGrid", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
-                            <p class="btn btn-primary">
-                                @Html.ActionLink("Edit", "ArticleCreate", "Article", new { Article_id = ViewBag.ArticleID, Art_Section = ViewBag.Art_Section }, new { cssclass = "btn btn-primary" })
+                            <br />
+                            <label> Written By: @Html.DisplayTextFor(model => model.AuthorName) </label>
+
+                            <br />
+                            <br />
+
+                            <!--<img src="@Url.Content(@ViewBag.imageSrc )"-->
+                            <img src="@Url.Content(@ViewBag.imageSrc )"
+                                 alt="banner"
+                                 class="img-fluid mb-5" />
+
+                            <p class="font-weight-600 fs-15">
+                                @Html.Raw(Model.ArticleParagraph1)
+
                             </p>
-                            @*<p class="btn btn-primary">
-                                @Html.ActionLink("View Articles", "ArticleGrid", "Article",new { sectionID = "1"} , new { cssclass = "btn btn-primary" })
+                            <p class="font-weight-600 fs-15 mb-5 mt-4">
+                                @Html.Raw(Model.ArticleParagraph2)
                             </p>
-                            <p class="btn btn-primary">
-                                @Html.ActionLink("Delete", "DeleteGrid", "Article", new { id = ViewBag.ArticleID }, new { cssclass = "btn btn-primary" })
-                            </p>*@
+
+                            <br />
+                            <br />
+
+                            if (ViewBag.User == "Admin")
+                            {
+                    <p>
+                        @Html.ActionLink("Edit", "ArticleCreate", "Article", new { Article_id = ViewBag.ArticleID, Art_Section = ViewBag.Art_Section }, new { @class = "btn btn-primary" })
+                        
+                        @Html.ActionLink("Publish", "ArticlePublish", "Article", new { Article_id = ViewBag.ArticleID, Art_Section = ViewBag.Art_Section }, new { @class = "btn btn-primary" })
+
+                        <input type="submit" value="Delete" class="btn btn-primary" />
+                    </p>
+                                
+                            }
+
+
                         }
-
-
-
 
                     </div>
                 </div>

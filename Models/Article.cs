@@ -59,10 +59,14 @@ namespace test.Models
         [DisplayName("Select News Section")]
         public int newsSectionID { get; set; }
 
+        public int monthID { get; set; }
 
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime articlePublishDate { get; set; }
 
-        public DataTable getArticles(string sectionID)
+        public DataTable getArticles(string sectionID, string loggedInMonth)
         {
             string sSql = string.Empty;
             DataTable dtYear = new DataTable();
@@ -71,7 +75,7 @@ namespace test.Models
             {
                 ObjDBHelper = new DBHelper();
                 //sSql = "select * from [dbo].[Mas_Articles] where Art_isPublished = 'Y' and Art_Section='" + sectionID + "' order by Art_pkid desc ";
-                sSql = "select * from [dbo].[Mas_Articles] where  Art_Section='" + sectionID + "' order by Art_pkid desc ";
+                sSql = "select * from [dbo].[Mas_Articles] where  Art_Section='" + sectionID + "' and Art_MonthID = '" + loggedInMonth + "'  order by Art_pkid desc ";
                 dtYear = ObjDBHelper.DBExecDataTable(sConString, sSql);
             }
             catch (Exception ex)
@@ -111,7 +115,7 @@ namespace test.Models
             try
             {
                 objdbHelper = new DBHelper();
-                sSql = "Insert into [Mas_Articles] values( N'" + article.ArticleHeading + "', N'" + article.ArticleParagraph1 + "', N'" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N', N'" + article.AuthorName + "','" + article.ImagePath + "', '" + article.pageSectionID + "', '" + article.newsSectionID + "')";
+                sSql = "Insert into [Mas_Articles] values( N'" + article.ArticleHeading + "', N'" + article.ArticleParagraph1 + "', N'" + article.ArticleParagraph2 + "','" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','N', N'" + article.AuthorName + "','" + article.ImagePath + "', '" + article.pageSectionID + "', '" + article.newsSectionID + "', " + article.monthID + ",1,getDate(), 6)";
                 sResult = objdbHelper.DBExecuteNoNQuery(sConString, sSql);
                 if (sResult)
                 {
@@ -197,6 +201,24 @@ namespace test.Models
 
             }
             return dt;
+        }
+
+        public bool publishArticle(int articleID, DateTime articlePublishDate)
+        {
+            bool result = false;
+            DBHelper objDbHelper = new DBHelper();
+            string sSql = string.Empty;
+            try
+            {
+                sSql = "update Mas_Articles set Art_isPublished = 'Y' ,Art_PublishDate = '" + articlePublishDate.ToString("MM/dd/yyyy HH:mm") + "'  where Art_pkid = " + articleID + "";
+                result = objDbHelper.DBExecuteNoNQuery(sConString,sSql);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return result;
+
         }
     }
 }
