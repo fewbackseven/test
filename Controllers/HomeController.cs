@@ -22,11 +22,17 @@ namespace test.Controllers
             string monthID = objGetMonthInfo.getLoginMonthsForSelection(monthName + "-" + currentYear).Rows[0]["Month_pkid"].ToString();
 
             //For Latest News section, ID=1
-            DataTable emps = objArticle.getArticles("1", monthID);
+            DataTable emps = objArticle.getPublishedArticles("1", monthID);
             ViewBag.ArticleList = emps;
 
-            DataTable Flash_News = objArticle.getArticles("2", monthID);
+            DataTable Flash_News = objArticle.getPublishedArticles("2", monthID);
             ViewBag.flashNewsList = Flash_News;
+
+            DataTable sportsSection = objArticle.getArticlesNewsSectionWise("5", monthID);
+            ViewBag.sportsNewsSection = sportsSection;
+
+            DataTable cinemaSection = objArticle.getArticlesNewsSectionWise("4", monthID);
+            ViewBag.cinemaNewsSection = cinemaSection;
 
             //string filePath = emps.Rows[0]["Art_ImagePath"].ToString();
             //ViewBag.imgSrc = filePath;

@@ -43,6 +43,7 @@ namespace test.Models
         [AllowHtml]
         public string ArticleParagraph1 { get; set; }
 
+       
         [DataType(DataType.MultilineText)]
         [AllowHtml]
         [DisplayName("Article Paragraph content 2")]
@@ -82,6 +83,25 @@ namespace test.Models
             {
                 //LogError(ex.Message, Convert.ToString(System.Web.HttpContext.Current.Session["Loccode"]), "Login", System.Reflection.MethodBase.GetCurrentMethod().Name, sSql, sBaseType);
                
+            }
+            return dtYear;
+        }
+        public DataTable getPublishedArticles(string sectionID, string loggedInMonth)
+        {
+            string sSql = string.Empty;
+            DataTable dtYear = new DataTable();
+            DBHelper ObjDBHelper;
+            try
+            {
+                ObjDBHelper = new DBHelper();
+                //sSql = "select * from [dbo].[Mas_Articles] where Art_isPublished = 'Y' and Art_Section='" + sectionID + "' order by Art_pkid desc ";
+                sSql = "select * from [dbo].[Mas_Articles] where  Art_Section='" + sectionID + "' and Art_MonthID = '" + loggedInMonth + "' and Art_isPublished = 'Y' and Art_PublishDate < getDate() and Art_NewsSection not in (4,5) order by  Art_PublishDate desc ";
+                dtYear = ObjDBHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch (Exception ex)
+            {
+                //LogError(ex.Message, Convert.ToString(System.Web.HttpContext.Current.Session["Loccode"]), "Login", System.Reflection.MethodBase.GetCurrentMethod().Name, sSql, sBaseType);
+
             }
             return dtYear;
         }
@@ -193,7 +213,7 @@ namespace test.Models
             DataTable dt = new DataTable();
             try
             {
-                sSql = "select * from Mas_Articles where Art_NewsSection = " + newsSectionID +"";
+                sSql = "select * from Mas_Articles where   Art_isPublished = 'Y' and Art_NewsSection = " + newsSectionID +"";
                 dt = objDBHelper.DBExecDataTable(sConString, sSql);
             }
             catch(Exception ex)
@@ -220,5 +240,26 @@ namespace test.Models
             return result;
 
         }
+
+
+        public DataTable getArticlesNewsSectionWise(string newsSectionId, string monthID)
+        {
+            DataTable dt = new DataTable();
+            DBHelper objDbHelper = new DBHelper();
+            string sSql = string.Empty;
+            try
+            {
+                sSql = "select * from [Mas_Articles] where Art_NewsSection = " + newsSectionId + " and Art_isPublished = 'Y'  and Art_MonthID = " + monthID + " and Art_PublishDate<getDate() order by  Art_PublishDate desc ";
+                dt = objDbHelper.DBExecDataTable(sConString, sSql);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return dt;
+        }
+
+
     }
 }

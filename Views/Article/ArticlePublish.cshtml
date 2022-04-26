@@ -21,7 +21,7 @@
             <div class="card" data-aos="fade-up">
                 <div class="card-body">
 
-                    @using (Html.BeginForm("DeleteGrid", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("ArticlePublish", "Article", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -34,20 +34,46 @@
                         <div class="form-horizontal">
 
                             <h1 class="h5">
-                                Article to be published: @Html.DisplayTextFor(model => model.ArticleHeading)
+                                Article to be published: &nbsp; @Html.DisplayTextFor(model => model.ArticleHeading)
                             </h1>
 
                             <br />
                             <br />
-
+                            <div class="hidden" style="display:none">
+                                @Html.EditorFor(model => model.ArticleID, new { htmlAttributes = new { @readonly = "true", Value = ViewBag.articlePkid, @class = "hidden" } })
+                            </div>
                             <div class="row">
-                                <div class="form-group">
-                                    <label class="control-label col-lg-12">Select The Date to be Published on</label>
-                                    <div class="col-lg-9 col-sm-8">
-                                        @Html.EditorFor(model => model.articlePublishDate, new { htmlAttributes = new { @readonly = "true", Value = Model.articlePublishDate.ToString("dd-MMM-yyyy"), @class = "form-control datepicker", @id = "txtToDate" } })
+                                <div class="form-group" style="width:500px">
+                                    <label class="control-label col-md-8">Select Date to be publish: </label>
+
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("ddlDate")
+                                        @Html.DropDownList("ddlMonth")
+                                        @Html.DropDownList("ddlYear")
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-8">Select time to be publish: </label>
+
+                                    <div class="col-md-10" style="width:500px">
+                                        @Html.DropDownList("ddlHours")
+                                        @Html.DropDownList("ddlMinutes")
+                                        @Html.DropDownList("ddlSeconds")
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="row">
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-12">Select The Date to be Published on</label>
+                                        <div class="col-lg-9 col-sm-8">
+                                            @Html.EditorFor(model => model.articlePublishDate, new { htmlAttributes = new { @readonly = "true", Value = Model.articlePublishDate.ToString("dd-MMM-yyyy"), @class = "form-control datepicker", @id = "txtToDate" } })
+                                        </div>
+                                    </div>
+                                </div>*@
                             <br />
 
 
@@ -56,10 +82,14 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-lg-9 col-sm-8">
-                                            <input id="btnSave" type="button" name="Publish" value="Publish" class="btn btn-danger" />
+                                            <input id="btnPublish" type="submit" class="btn btn-danger" />
                                         </div>
                                     </div>
                                 </div>
+                            }
+                            else
+                            {
+                                <label> Article is already published </label>
                             }
                         </div>
                     }

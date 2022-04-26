@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "sectionPage";
+    ViewBag.Title = @ViewBag.sectionName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -52,7 +52,14 @@
                                         </div>
                                         <div class="col-sm-8  grid-margin">
                                             <h2 class="mb-2 font-weight-600">
-                                                @drDetailsRow["Art_heading"].ToString()
+                                                @if (@drDetailsRow["Art_heading"].ToString().Length > 100)
+                                                {
+                                                    @drDetailsRow["Art_heading"].ToString().Substring(0, 100)
+                                                }
+                                                else
+                                                {
+                                                    @drDetailsRow["Art_heading"].ToString()
+                                                }
                                             </h2>
                                             <div class="fs-13 mb-2">
                                                 <span class="mr-2">Photo </span>10 Minutes ago

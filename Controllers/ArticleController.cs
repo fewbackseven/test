@@ -270,6 +270,12 @@ namespace test.Controllers
         {
             userInfo objUserDetails = new userInfo();
             Article objArticle = new Article();
+            List<SelectListItem> listOfDate = new List<SelectListItem>();
+            List<SelectListItem> listOfMonth = new List<SelectListItem>();
+            List<SelectListItem> listOfYears = new List<SelectListItem>();
+            List<SelectListItem> listOfHours = new List<SelectListItem>();
+            List<SelectListItem> listOfMinutes = new List<SelectListItem>();
+            List<SelectListItem> listOfSeconds = new List<SelectListItem>();
             if (Session["objUserInSeesion"] != null)
             {
                 objUserDetails = Session["objUserInSeesion"] as userInfo;
@@ -293,6 +299,64 @@ namespace test.Controllers
                     objArticle.isPublished = article.Rows[0]["Art_isPublished"].ToString().ToCharArray()[0];
                     objArticle.articlePublishDate = DateTime.Now;
                     ViewBag.articlePkid = Article_id;
+                    int todaysDate = DateTime.Now.Day;
+                    int todaysMonth = DateTime.Now.Month;
+                    int todaysYear = DateTime.Now.Year;
+                    int todaysHour = DateTime.Now.Hour;
+                    int todaysMinute = DateTime.Now.Minute;
+
+                    for (int i = 1; i < 32; i++)
+                    {
+                        if (i != todaysDate)
+                            listOfDate.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                        else
+                            listOfDate.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                    }
+                    ViewBag.ddlDate = listOfDate;
+
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        if (i != todaysMonth)
+                            listOfMonth.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                        else
+                            listOfMonth.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                    }
+                    ViewBag.ddlMonth = listOfMonth;
+
+
+                    for (int i = 1990; i <= 2050; i++)
+                    {
+                        if (i != todaysYear)
+                            listOfYears.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                        else
+                            listOfYears.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                    }
+                    ViewBag.ddlYear = listOfYears;
+
+
+                    for (int i = 1; i <= 60; i++)
+                    {
+                        if (i != todaysMinute)
+                            listOfMinutes.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                        else
+                            listOfMinutes.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+
+                        listOfSeconds.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    ViewBag.ddlMinutes = listOfMinutes;
+                    ViewBag.ddlSeconds = listOfSeconds;
+
+
+                    for (int i = 0; i <= 24; i++)
+                    {
+                        if (i != todaysHour)
+                            listOfHours.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                        else
+                            listOfHours.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                    }
+                    ViewBag.ddlHours = listOfHours;
+
+
                 }
                 return View(objArticle);
             }
@@ -301,10 +365,16 @@ namespace test.Controllers
 
 
         [HttpPost]
-        public ActionResult ArticlePublish(Article membervalues)
+        public ActionResult ArticlePublish(Article membervalues, string ddlDate, string ddlMonth, string ddlYear, string ddlHours, string ddlMinutes, string ddlSeconds)
         {
             Article objArticleModel = new Article();
+            membervalues.articlePublishDate = DateTime.Now;
             bool isPublished = false;
+            //+		membervalues.articlePublishDate	{27-04-2022 00:09:33}	System.DateTime
+
+            string toBePublishedDate = ddlDate.ToString() + "-" + ddlMonth.ToString() + "-" + ddlYear.ToString() + "  " +  ddlHours.ToString() + ":" + ddlMinutes.ToString() + ":" + ddlSeconds.ToString();
+            membervalues.articlePublishDate = DateTime.Parse(toBePublishedDate);
+
             isPublished = objArticleModel.publishArticle(membervalues.ArticleID, membervalues.articlePublishDate);
             return RedirectToAction("ArticleGrid", new { sectionID = "1" });
 
@@ -336,7 +406,7 @@ namespace test.Controllers
                 ViewBag.ArticleList = emps;
                 return View();
             }
-            return RedirectToActionPermanent("Index", "Home");
+            return RedirectToAction("Index", "Home");
 
         }
 
